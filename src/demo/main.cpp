@@ -66,21 +66,21 @@ int main()
 
   // Add our man curuthers
   std::shared_ptr<Entity> curuthers = core->addEntity();
-  curuthers->getTransform()->setPosition(rend::vec3(-2, 1000, -10));
+  curuthers->getTransform()->setPosition(rend::vec3(0, 10, -10));
   curuthers->addComponent<Renderer>("curuthers/curuthers");
   curuthers->addComponent<Rigidbody>();
   
   // Add our man curuthers
-  std::shared_ptr<Entity> curuthers2 = core->addEntity();
-  curuthers2->getTransform()->setPosition(rend::vec3(0, 10, -10));
-  curuthers2->addComponent<Renderer>("curuthers/curuthers");
-  curuthers2->addComponent<Rigidbody>();
+  //std::shared_ptr<Entity> curuthers2 = core->addEntity();
+  //curuthers2->getTransform()->setPosition(rend::vec3(-2, 1000, -10));
+  //curuthers2->addComponent<Renderer>("curuthers/curuthers");
+  //curuthers2->addComponent<Rigidbody>();
   
   // Add our man curuthers
-  std::shared_ptr<Entity> curuthers3 = core->addEntity();
-  curuthers3->getTransform()->setPosition(rend::vec3(2, 100, -10));
-  curuthers3->addComponent<Renderer>("curuthers/curuthers");
-  curuthers3->addComponent<Rigidbody>();
+  //std::shared_ptr<Entity> curuthers3 = core->addEntity();
+  //curuthers3->getTransform()->setPosition(rend::vec3(2, 100, -10));
+  //curuthers3->addComponent<Renderer>("curuthers/curuthers");
+  //curuthers3->addComponent<Rigidbody>();
 
   std::shared_ptr<Entity> player = core->addEntity();
   player->addComponent<Camera>();
