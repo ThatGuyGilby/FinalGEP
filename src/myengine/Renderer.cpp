@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "Core.h"
 #include "Transform.h"
+#include "Resources.h"
 #include "Entity.h"
 #include "Exception.h"
 #include "Camera.h"
@@ -13,8 +14,11 @@
 namespace myengine
 {
 
-void Renderer::onInitialize()
+void Renderer::onInitialize(std::string modelPath)
 {
+	std::shared_ptr<Model> cm = getCore()->getResources()->load<Model>("../models/" + modelPath);
+	setModel(cm);
+
 	shader = getCore()->context->createShader();
 
 	shader->parse(

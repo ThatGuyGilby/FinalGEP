@@ -16,7 +16,7 @@ struct ShaderPointLight;
 
 struct Renderer : public Component
 {
-  void onInitialize();
+  void onInitialize(std::string modelPath);
   void onRender();
   void onTick();
 

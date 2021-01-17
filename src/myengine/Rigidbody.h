@@ -19,6 +19,10 @@ struct Rigidbody : public Component
 	std::shared_ptr<BoxCollider> collider;
 
 	int id;
+
+	rend::vec3 velocity;
+
+	bool CheckCollision(rend::vec3 position);
 };
 
 struct BoxCollider
