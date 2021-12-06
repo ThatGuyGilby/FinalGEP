@@ -23,14 +23,24 @@ struct Rigidbody : public Component
 	rend::vec3 velocity;
 
 	bool CheckCollision(rend::vec3 position);
+
+	std::vector<std::shared_ptr<Rigidbody>> collisionCache;
+
+	bool gravity;
 };
 
-struct BoxCollider
+struct BoxCollider : Component
 {
 	rend::vec3 size;
 	rend::vec3 center;
 
-	BoxCollider()
+	void onInitialize(rend::vec3 size)
+	{
+		size = rend::vec3(size);
+		center = rend::vec3(0);
+	}
+
+	void onInitialize()
 	{
 		size = rend::vec3(1);
 		center = rend::vec3(0);

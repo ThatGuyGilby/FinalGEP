@@ -13,21 +13,22 @@ namespace myengine
 		getCore()->rigidbodies.push_back(self);
 
 		std::shared_ptr<BoxCollider> tCollider = std::make_shared<BoxCollider>();
-		//tCollider->center = getEntity()->getTransform()->position;
 		std::cout << "Size: " << tCollider->size.x << ", " << tCollider->size.y << ", " << tCollider->size.z << std::endl;
 		std::cout << "Center: " << tCollider->center.x << ", " << tCollider->center.y << ", " << tCollider->center.z << std::endl;
 
 		id = getCore()->GetID();
 
-		collider = tCollider;
+		collider = getEntity()->getComponent<BoxCollider>();
 
 		velocity = rend::vec3(0);
+
+		gravity = true;
+
+		collisionCache = std::vector<std::shared_ptr<Rigidbody>>();
 	}
 
 	void Rigidbody::onTick()
 	{
-		bool gravity = true;
-
 		if (gravity)
 		{
 			float bottom = getEntity()->getTransform()->position.y - (getEntity()->getTransform()->position.y + collider->center.y - (collider->size.y / 2));
@@ -84,6 +85,28 @@ namespace myengine
 					m_zrange.x < o_zrange.y)
 				{
 					collision = true;
+
+					bool check = false;
+
+					if (!std::count(collisionCache.begin(), collisionCache.end(), rb))
+					{
+						getEntity()->collisionEnter(rb);
+						collisionCache.push_back(rb);
+						check = true;
+					}
+
+					if (!check)
+					{
+						getEntity()->collisionStay(rb);
+					}
+				}
+				else {
+					if (std::count(collisionCache.begin(), collisionCache.end(), rb))
+					{
+						getEntity()->collisionLeave(rb);
+						collisionCache.erase(collisionCache.begin() + i);
+						collisionCache.shrink_to_fit();
+					}
 				}
 			}
 		}

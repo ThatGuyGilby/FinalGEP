@@ -10,31 +10,55 @@ namespace myengine
 
 std::shared_ptr<Core> Core::initialize()
 {
-  std::shared_ptr<Core> rtn = std::make_shared<Core>();
-  rtn->self = rtn;
+    std::shared_ptr<Core> rtn = std::make_shared<Core>();
+    rtn->self = rtn;
 
-  rtn->window = SDL_CreateWindow("myengine",
+    rtn->window = SDL_CreateWindow("Game Engine",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
     800, 600,
     SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
-  if(!rtn->window)
-  {
+    if(!rtn->window)
+    {
     throw Exception("Failed to create window");
-  }
+    }
 
-  rtn->glContext = SDL_GL_CreateContext(rtn->window);
+    rtn->glContext = SDL_GL_CreateContext(rtn->window);
 
-  if(!rtn->glContext)
-  {
+    if(!rtn->glContext)
+    {
     throw Exception("Failed to create OpenGL context");
-  }
+    }
 
-  rtn->context = rend::Context::initialize();
-  rtn->keyboard = std::make_shared<Keyboard>();
+    rtn->context = rend::Context::initialize();
+    rtn->keyboard = std::make_shared<Keyboard>();
 
-  rtn->resources = std::make_shared<Resources>();
-  rtn->resources->core = rtn;
+    rtn->resources = std::make_shared<Resources>();
+    rtn->resources->core = rtn;
+  
+    // audio start
+    rtn->audioDevice = alcOpenDevice(NULL);
+
+    if (!rtn->audioDevice)
+    {
+        throw Exception("Failed to load default device");
+    }
+
+    rtn->audioContext = alcCreateContext(rtn->audioDevice, NULL);
+
+    if (!rtn->context)
+    {
+        alcCloseDevice(rtn->audioDevice);
+        throw Exception("Unable to create context");
+    }
+
+    if (!alcMakeContextCurrent(rtn->audioContext))
+    {
+        alcDestroyContext(rtn->audioContext);
+        alcCloseDevice(rtn->audioDevice);
+        throw Exception("Failed to make context current");
+    }
+    //// audio end
 
   return rtn;
 }
@@ -134,6 +158,10 @@ void Core::start()
     keyboard->downKeys.clear();
     keyboard->upKeys.clear();
   }
+
+  alcMakeContextCurrent(NULL);
+  alcDestroyContext(audioContext);
+  alcCloseDevice(audioDevice);
 }
 
 }

@@ -10,6 +10,7 @@ add_definitions(-DSDL_MAIN_HANDLED)
 
 include_directories(
   src
+  ${PROJECT_SOURCE_DIR}/contrib/common
   ${PROJECT_SOURCE_DIR}/contrib/${COMP}-${PLATFORM}-${ARCH}/include
 )
 
@@ -42,6 +43,7 @@ add_library(rend
   src/rend/Mesh.cpp
   src/rend/Util.cpp
 )
+
 if(MSVC OR MINGW)
   target_link_libraries(rend ${LIBGLEW} opengl32)
 else()
@@ -60,6 +62,7 @@ add_library(myengine
   src/myengine/Resource.cpp
   src/myengine/Rigidbody.cpp
   src/myengine/Model.cpp
+  src/myengine/Sound.cpp
 
   src/myengine/Core.h
   src/myengine/Entity.h
@@ -69,11 +72,18 @@ add_library(myengine
   src/myengine/Transform.h
   src/myengine/Keyboard.h
   src/myengine/Rigidbody.h
+  src/myengine/Sound.h
+  src/myengine/stb_vorbis.h
 )
-target_link_libraries(myengine rend ${LIBSDL2} ${STATIC_LIBS})
 
-add_executable(demo
-  src/demo/main.cpp
+if(MSVC OR MINGW)
+	target_link_libraries(myengine rend ${LIBSDL2} ${STATIC_LIBS} openal32)
+else()
+	target_link_libraries(rend GLEW GL AL)
+endif()
+
+add_executable(game
+  src/game/main.cpp
 )
-target_link_libraries(demo myengine)
+target_link_libraries(game myengine)
 

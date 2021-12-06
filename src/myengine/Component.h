@@ -9,7 +9,7 @@ namespace myengine
 struct Entity;
 struct Core;
 struct Transform;
-
+struct Rigidbody;
 /**
  * \brief Provides the base class that any classes added to Entity should inherit.
  */
@@ -29,6 +29,15 @@ struct Component
 
   void render();
   virtual void onRender();
+
+  void collisionEnter(std::shared_ptr<Rigidbody> other);
+  virtual void onCollisionEnter(std::shared_ptr<Rigidbody> other);
+
+  void collisionStay(std::shared_ptr<Rigidbody> other);
+  virtual void onCollisionStay(std::shared_ptr<Rigidbody> other);
+
+  void collisionLeave(std::shared_ptr<Rigidbody> other);
+  virtual void onCollisionLeave(std::shared_ptr<Rigidbody> other);
 
   std::shared_ptr<Entity> getEntity();
   std::shared_ptr<Core> getCore();

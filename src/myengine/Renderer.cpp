@@ -89,8 +89,7 @@ void Renderer::shaderSetAll()
 {
 	shader->setMesh(model->mesh);
 
-	shader->setUniform("u_Projection", rend::perspective(rend::radians(45.0f),
-		1.0f, 0.1f, 100.0f));
+	shader->setUniform("u_Projection", getCore()->getCamera()->perspectiveMatrix);
 
 	shader->setUniform("u_View", getCore()->getCamera()->getView());
 	shader->setUniform("u_Model", getEntity()->getTransform()->getModel());

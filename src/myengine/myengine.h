@@ -13,7 +13,7 @@
 #include "Resource.h"
 #include "Resources.h"
 #include "Rigidbody.h"
-
+#include "Sound.h"
 #include <rend/rend.h>
 
 using namespace myengine;

@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 
+#include "Rigidbody.h"
+
 namespace myengine
 {
 
@@ -58,6 +60,10 @@ struct Entity
 
   void tick();
   void render();
+
+  void collisionEnter(std::shared_ptr<Rigidbody> other);
+  void collisionStay(std::shared_ptr<Rigidbody> other);
+  void collisionLeave(std::shared_ptr<Rigidbody> other);
 
   std::shared_ptr<Core> getCore();
   std::shared_ptr<Transform> getTransform();

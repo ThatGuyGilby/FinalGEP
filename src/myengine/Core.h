@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <rend/rend.h>
-
+#include <AL/al.h>
+#include <AL/alc.h>
 #include <memory>
 #include <vector>
 #include <iostream>
@@ -18,24 +19,28 @@ struct Model;
 
 struct Core
 {
-  static std::shared_ptr<Core> initialize();
+	static std::shared_ptr<Core> initialize();
 
-  std::shared_ptr<Entity> addEntity();
-  std::shared_ptr<Keyboard> getKeyboard();
-  std::shared_ptr<Camera> getCamera();
-  std::shared_ptr<Resources> getResources();
+	std::shared_ptr<Entity> addEntity();
+	std::shared_ptr<Keyboard> getKeyboard();
+	std::shared_ptr<Camera> getCamera();
+	std::shared_ptr<Resources> getResources();
 
-  void start();
+	void start();
 
-  std::vector<std::shared_ptr<Rigidbody>> rigidbodies;
+	std::vector<std::shared_ptr<Rigidbody>> rigidbodies;
 
-  int current_id = -2147483648;
-  int GetID()
-  {
-	  current_id++;
-	  std::cout << "Generated New ID: " << current_id - 1 << std::endl;
-	  return current_id - 1;
-  }
+	int current_id = -2147483648;
+	int GetID()
+	{
+		current_id++;
+		std::cout << "Generated New ID: " << current_id - 1 << std::endl;
+		return current_id - 1;
+	}
+
+	ALCdevice* audioDevice;
+	ALCcontext* audioContext;
+
 
 private:
 	friend struct myengine::Camera;

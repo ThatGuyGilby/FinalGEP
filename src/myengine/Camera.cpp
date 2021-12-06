@@ -11,7 +11,6 @@ void Camera::onInitialize()
 	std::shared_ptr<Camera> self = getEntity()->getComponent<Camera>();
 	getCore()->cameras.push_back(self);
 
-	//
 	fovy = 45;
 	aspect = 1;
 	near = 0.1;
@@ -21,7 +20,6 @@ void Camera::onInitialize()
 	pitch = 0;
 	yaw = 0;
 	getTransform()->rotation.x = -90;
-	//
 }
 
 void Camera::onTick()
